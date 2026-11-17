@@ -340,7 +340,7 @@ export class Game {
 
   _updateMenu(dt) {
     this.world.update(dt, 3.4 * dt);
-    this.player.update(dt, 4.2, 'attract');
+    this.player.update(dt, 3.4, 'attract');
     this._updateCamera(dt);
     this.shake = damp(this.shake, 0, 4, dt);
   }

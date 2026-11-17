@@ -482,8 +482,9 @@ export class Player {
     this.body.rotation.y = Math.sin(this.phase * 0.5) * 0.05 * runAmount;
     this.filling.rotation.y = Math.sin(this.phase * 0.35) * 0.08;
 
-    // В меню герой стоит лицом к игроку, в забеге разворачивается вперёд.
-    const faceCamera = mode !== 'play';
+    // В меню и в забеге герой смотрит вперёд, по ходу улицы,
+    // а город прокручивается ему навстречу.
+    const faceCamera = mode === 'menu';
     this.flip.rotation.y = damp(this.flip.rotation.y, faceCamera ? 0 : Math.PI, 7, dt);
 
     // Наклон и крен: именно они сглаживают «перекладку» между полосами.
