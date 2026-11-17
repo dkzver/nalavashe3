@@ -586,8 +586,12 @@ export class World {
     this.time += dt;
     for (const segment of this.segments) {
       segment.position.z += dz;
-      if (segment.position.z > SEG_LEN + 26) {
-        segment.position.z -= TOTAL_LEN;
+      if (dz >= 0) {
+        if (segment.position.z > SEG_LEN + 26) {
+          segment.position.z -= TOTAL_LEN;
+        }
+      } else if (segment.position.z < -TOTAL_LEN + SEG_LEN) {
+        segment.position.z += TOTAL_LEN;
       }
     }
   }

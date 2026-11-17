@@ -339,7 +339,8 @@ export class Game {
   }
 
   _updateMenu(dt) {
-    this.world.update(dt, 3.4 * dt);
+    // Мир едет назад, а герой бежит навстречу камере — лицом к зрителю.
+    this.world.update(dt, -3.4 * dt);
     this.player.update(dt, 3.4, 'attract');
     this._updateCamera(dt);
     this.shake = damp(this.shake, 0, 4, dt);
