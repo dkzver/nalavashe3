@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1a0d09" />
+    <meta
+      name="description"
+      content="LAVA DASH — бесплатная 3D-игра от ресторана «На LAVA'ШЕ». Беги по улице, собирай шаурму, бургеры и бонусы, ставь рекорд."
+    />
+    <title>LAVA DASH — беги за шаурмой | На LAVA'ШЕ</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game-canvas" aria-label="Игровое поле LAVA DASH"></canvas>
+
+      <!-- ЗАГРУЗКА -->
+      <section class="screen screen--loading" id="loading-screen">
+        <div class="loading-inner">
+          <a class="brand-mini" href="https://nalavashe-vl.ru/" target="_blank" rel="noopener">НА LAVA'ШЕ</a>
+          <h1 class="logo logo--loading">LAVA <span>DASH</span></h1>
+          <div class="loader"><div class="loader__bar" id="loader-bar"></div></div>
+          <p class="loading-text" id="loading-text">Разогреваем лаваш…</p>
+        </div>
+      </section>
+
+      <!-- ГЛАВНОЕ МЕНЮ -->
+      <section class="screen screen--menu hidden" id="menu-screen">
+        <header class="topbar">
+          <a class="brand" href="https://nalavashe-vl.ru/" target="_blank" rel="noopener">
+            <span class="brand__dot"></span> НА LAVA'ШЕ
+          </a>
+          <button class="icon-btn sound-btn" id="menu-sound" type="button" aria-label="Включить или выключить звук">
+            <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+            <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>
+          </button>
+        </header>
+
+        <div class="menu-content">
+          <div class="logo-wrap">
+            <div class="logo-sub">ШАУРМА-РАННЕР</div>
+            <h1 class="logo">LAVA <span>DASH</span></h1>
+            <p class="logo-tag">Беги. Собирай. Заказывай.</p>
+          </div>
+
+          <div class="best-pill">
+            <span>ЛУЧШИЙ РЕЗУЛЬТАТ</span>
+            <strong id="menu-best">0</strong>
+          </div>
+
+          <div class="menu-buttons">
+            <button class="btn btn--primary btn--xl" id="btn-play" type="button">
+              <span>ИГРАТЬ</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7V5z"/></svg>
+            </button>
+            <button class="btn btn--ghost" id="btn-howto" type="button">КАК ИГРАТЬ</button>
+          </div>
+
+          <p class="menu-hint">Бесплатно · Без регистрации · Прямо в браузере</p>
+        </div>
+
+        <footer class="menu-footer">
+          <a href="https://nalavashe-vl.ru/" target="_blank" rel="noopener">nalavashe-vl.ru</a>
+          <span>Владивосток · На LAVA'ШЕ</span>
+        </footer>
+      </section>
+
+      <!-- HUD -->
+      <div class="hud hidden" id="hud">
+        <div class="hud-top">
+          <div class="stat">
+            <span class="stat__label">СЧЁТ</span>
+            <span class="stat__value" id="hud-score">0</span>
+          </div>
+          <div class="stat stat--center">
+            <span class="stat__label">ДИСТАНЦИЯ</span>
+            <span class="stat__value" id="hud-distance">0 м</span>
+          </div>
+          <div class="stat stat--right">
+            <span class="stat__label">ПРОДУКТЫ</span>
+            <span class="stat__value" id="hud-items">0</span>
+          </div>
+          <button class="icon-btn hud-pause" id="btn-pause" type="button" aria-label="Пауза">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
+          </button>
+        </div>
+        <div class="hud-toast" id="hud-toast" aria-live="polite"></div>
+      </div>
+
+      <!-- МОБИЛЬНОЕ УПРАВЛЕНИЕ -->
+      <div class="touch-controls hidden" id="touch-controls">
+        <div class="touch-group touch-group--move">
+          <button class="touch-btn" data-control="left" type="button" aria-label="Влево">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button class="touch-btn" data-control="right" type="button" aria-label="Вправо">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <div class="touch-group touch-group--action">
+          <button class="touch-btn touch-btn--jump" data-control="jump" type="button" aria-label="Прыжок">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 12l6-6 6 6"/></svg>
+          </button>
+          <button class="touch-btn touch-btn--slide" data-control="slide" type="button" aria-label="Подкат">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6 12l6 6 6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ПАУЗА -->
+      <section class="screen screen--overlay hidden" id="pause-screen">
+        <div class="panel panel--narrow">
+          <div class="panel__kicker">ПЕРЕДЫШКА</div>
+          <h2 class="panel__title">ПАУЗА</h2>
+          <div class="pause-stats">
+            <div><span>Счёт</span><strong id="pause-score">0</strong></div>
+            <div><span>Дистанция</span><strong id="pause-distance">0 м</strong></div>
+          </div>
+          <button class="btn btn--primary" id="btn-resume" type="button">ПРОДОЛЖИТЬ</button>
+          <button class="btn btn--ghost" id="btn-restart-pause" type="button">НАЧАТЬ ЗАНОВО</button>
+          <div class="pause-row">
+            <button class="btn btn--text sound-btn" id="pause-sound" type="button">
+              <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+              <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l4 6M21 9l-4 6"/></svg>
+              <span class="sound-label">ЗВУК ВКЛ</span>
+            </button>
+            <a class="btn btn--text" href="https://nalavashe-vl.ru/" target="_blank" rel="noopener">НА САЙТ</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- КОНЕЦ ИГРЫ -->
+      <section class="screen screen--overlay hidden" id="gameover-screen">
+        <div class="panel panel--gameover">
+          <div class="panel__kicker">ЗАБЕГ ОКОНЧЕН</div>
+          <h2 class="panel__title" id="gameover-title">ЕЩЁ РАЗОК?</h2>
+
+          <div class="result-main">
+            <span>ВАШ СЧЁТ</span>
+            <strong id="result-score">0</strong>
+            <em id="result-record" class="hidden">НОВЫЙ РЕКОРД!</em>
+          </div>
+
+          <div class="result-grid">
+            <div><span>Дистанция</span><strong id="result-distance">0 м</strong></div>
+            <div><span>Продукты</span><strong id="result-items">0</strong></div>
+            <div><span>Лучший</span><strong id="result-best">0</strong></div>
+          </div>
+
+          <div class="promo">
+            <div class="promo__text">
+              <strong>Проголодался?</strong>
+              <span>Свежая шаурма уже ждёт на сайте «На LAVA'ШЕ».</span>
+            </div>
+            <a class="btn btn--primary btn--wide" href="https://nalavashe-vl.ru/" target="_blank" rel="noopener">НА САЙТ РЕСТОРАНА</a>
+            <span class="promo__note">Заказ и доставка — на nalavashe-vl.ru</span>
+          </div>
+
+          <div class="gameover-actions">
+            <button class="btn btn--primary" id="btn-play-again" type="button">ЕЩЁ РАЗ</button>
+            <button class="btn btn--ghost" id="btn-menu" type="button">В МЕНЮ</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- КАК ИГРАТЬ -->
+      <section class="screen screen--overlay hidden" id="howto-screen">
+        <div class="panel panel--wide">
+          <button class="icon-btn panel__close" id="btn-howto-close" type="button" aria-label="Закрыть">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+          <div class="panel__kicker">ИНСТРУКЦИЯ</div>
+          <h2 class="panel__title">КАК ИГРАТЬ</h2>
+
+          <div class="howto-grid">
+            <div class="howto-card">
+              <h3>Клавиатура</h3>
+              <ul class="keys">
+                <li><span><kbd>A</kbd><kbd>←</kbd></span> влево</li>
+                <li><span><kbd>D</kbd><kbd>→</kbd></span> вправо</li>
+                <li><span><kbd>W</kbd><kbd>↑</kbd><kbd>Space</kbd></span> прыжок</li>
+                <li><span><kbd>S</kbd><kbd>↓</kbd></span> подкат</li>
+                <li><span><kbd>P</kbd><kbd>Esc</kbd></span> пауза</li>
+              </ul>
+            </div>
+            <div class="howto-card">
+              <h3>Телефон</h3>
+              <ul class="keys">
+                <li><span>◀ ▶</span> кнопки влево / вправо</li>
+                <li><span>▲</span> прыжок</li>
+                <li><span>▼</span> подкат</li>
+                <li><span>Свайпы</span> во все стороны</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="points">
+            <h3>Что сколько даёт</h3>
+            <div class="points-row">
+              <span class="point-chip"><i class="dot dot--shawarma"></i>Шаурма <b>+100</b></span>
+              <span class="point-chip"><i class="dot dot--burger"></i>Бургер <b>+150</b></span>
+              <span class="point-chip"><i class="dot dot--drink"></i>Напиток <b>+50</b></span>
+              <span class="point-chip"><i class="dot dot--fries"></i>Фри <b>+75</b></span>
+              <span class="point-chip"><i class="dot dot--bonus"></i>Бонус <b>+500</b></span>
+            </div>
+          </div>
+
+          <p class="howto-tip">
+            Подкат спасает под низкими перекладинами, прыжок — над конусами и барьерами.
+            Машины и контейнеры можно только объехать. Скорость растёт — держись!
+          </p>
+          <button class="btn btn--primary" id="btn-howto-play" type="button">ПОНЯТНО, ИГРАТЬ</button>
+        </div>
+      </section>
+
+      <div class="vignette" aria-hidden="true"></div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

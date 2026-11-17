@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-standalone/
+.vite/
+.zwork/
+*.local
+.DS_Store
+Thumbs.db

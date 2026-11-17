@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 160" width="480" height="160" role="img" aria-label="На LAVA'ШЕ">
+  <defs>
+    <linearGradient id="lava" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/>
+      <stop offset="0.45" stop-color="#ffc247"/>
+      <stop offset="1" stop-color="#ff5a1f"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="160" rx="28" fill="#1a0d09"/>
+  <text x="240" y="78" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="44" font-weight="900" fill="url(#lava)" letter-spacing="2">НА LAVA'ШЕ</text>
+  <text x="240" y="116" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#f3d9bd" letter-spacing="6">ШАУРМА · БУРГЕРЫ · ДОГИ</text>
+</svg>
