@@ -488,7 +488,10 @@ export class Player {
     this.flip.rotation.y = damp(this.flip.rotation.y, faceCamera ? 0 : Math.PI, 7, dt);
 
     // Наклон и крен: именно они сглаживают «перекладку» между полосами.
-    const targetTilt = -0.045 - speedNorm * 0.05 + this.airBlend * 0.06 + this.slideBlend * 1.18;
+    // Знак наклона зависит от того, куда смотрит герой: в меню он бежит
+    // на камеру, в забеге — от камеры.
+    const facingSign = Math.cos(this.flip.rotation.y) >= 0 ? 1 : -1;
+    const targetTilt = (0.045 + speedNorm * 0.05) * facingSign + this.airBlend * 0.06 + this.slideBlend * 1.18;
     this.pose.rotation.x = damp(this.pose.rotation.x, targetTilt, 9, dt);
 
     const targetBank = clamp(-this.vx * 0.028, -0.3, 0.3) - this.edgeNudge;
