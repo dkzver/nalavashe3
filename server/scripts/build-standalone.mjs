@@ -3,7 +3,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 const root = process.cwd();
-const OUT = resolve(root, 'lava-dash-standalone.html');
+const OUT = resolve(root, '..', 'index.html');
 
 const result = await build({
   entryPoints: [resolve(root, 'src/main.js')],
@@ -67,5 +67,5 @@ await writeFile(OUT, html, 'utf8');
 await writeFile(resolve(root, 'dist-standalone/index.html'), html, 'utf8');
 
 const kb = (bytes) => `${(bytes / 1024).toFixed(0)} КБ`;
-console.log(`Автономная сборка: ${OUT} (${kb(Buffer.byteLength(html))})`);
-console.log(`Копия для раздачи: dist-standalone/index.html`);
+console.log(`Статическая версия: ${OUT} (${kb(Buffer.byteLength(html))})`);
+console.log(`Копия для хостинга: server/dist-standalone/index.html`);
